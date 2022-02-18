@@ -523,12 +523,12 @@ export default function MultipleSelectChip() {
       </FormControl>
       <input type="submit" value="Submit" />
       </form>
-      {diseases.map(({ name, probability }) => {
+      {/* {diseases.map(({ name, probability }) => {
           <div>
             <strong>{name}</strong>
             <p>{probability}</p>
           </div>
-      })}
+      })} */}
     </div>
   );
 }
