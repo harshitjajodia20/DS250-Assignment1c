@@ -8,8 +8,27 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 import axios from "axios";
-
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+// import MenuIcon from '@mui/icons-material/Menu';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import DisplayDisease from './DisplayDisease';
 const baseURL = "http://127.0.0.1:8000";
+
+const styles = {
+  root: {
+    flexGrow: 1
+  },
+  typography: {
+flexGrow: 1,
+    align: "center"
+  }
+};
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -467,8 +486,8 @@ export default function MultipleSelectChip() {
   };
   const handleSubmit = (event) => {
     event.preventDefault()
-    console.log("the value of event is :                ----------------------------------")
-    console.log("the value of event is :                ----------------------------------")
+    // console.log("the value of event is :                ----------------------------------")
+    // console.log("the value of event is :                ----------------------------------")
     let symptoms = event.target[0].value
     console.log(symptoms,`${baseURL}/predict`);
     axios
@@ -476,22 +495,41 @@ export default function MultipleSelectChip() {
         symptoms:symptoms
       })
       .then((response) => {
-        console.log("donelllllllllllllllllllllllllllllllllll")
-        console.log(response.data.prediction);
+        // console.log("donelllllllllllllllllllllllllllllllllll")
+        // console.log(response.data.prediction);
         setDiseases(response.data.prediction);
-        console.log("these are the diseases",diseases)
+        // console.log("these are the diseases") 
+        // console.log(diseases)
+        // const topkDisease = diseases
+
       });
   };
-//   React.useEffect(() => {
-//     // action on update of movies
-//     // return()
-// }, [diseases]);
-  console.log("hello")
+
+
+  // console.log("hello")
   return (
     <div>
-      <form onSubmit={(value) => handleSubmit(value)}>
-      <FormControl sx={{ m: 1, width: 300 }}>
-        <InputLabel id="demo-multiple-chip-label">Chip</InputLabel> 
+    <div >
+       <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static" style={{ backgroundColor: 'black' }}>
+        <Toolbar style={{display: 'flex', flexDirection:'column', gap:'10'}}>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} textAlign="center" color="white">
+            DS250 ASSIGNMENT 1C
+          </Typography>
+          
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} textAlign="center" color="white">
+            Team Members : Harshil Singhal, Harshit jajodia
+          </Typography>
+         
+        </Toolbar>
+      </AppBar>
+    </Box>
+    </div>
+  
+      <form onSubmit={(value) => handleSubmit(value)} style={{display: 'flex', flexDirection:'column', alignItems:'center'}}>
+      <div style={{alignItems:'center'}}>
+      <FormControl sx={{ width: 1000, m:5 }} >
+        <InputLabel id="demo-multiple-chip-label">Please Provide the symptoms</InputLabel> 
         <Select
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
@@ -499,11 +537,13 @@ export default function MultipleSelectChip() {
           name = "multiselect"
           value={symptomName}
           onChange={(value) => handleChange(value)}
+          
           input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {selected.map((value) => (
-                <Chip key={value} label={value} />
+                <Chip 
+                key={value} label={value} />
               ))}
             </Box>
           )}
@@ -521,14 +561,19 @@ export default function MultipleSelectChip() {
           ))}
         </Select>
       </FormControl>
-      <input type="submit" value="Submit" />
+      </div>
+      <div>
+      <Button type="submit"
+            variant="contained"
+            color="primary"
+            value="Submit"
+            style={{ width:'100px' }}
+            >Predict</Button>
+        </div>
       </form>
-      {/* {diseases.map(({ name, probability }) => {
-          <div>
-            <strong>{name}</strong>
-            <p>{probability}</p>
-          </div>
-      })} */}
+      <DisplayDisease diseasesArr = {diseases}/>
+
+    
     </div>
   );
 }
